@@ -5,7 +5,7 @@ const tokenTypes = [
     //Palabras reservadas
     { regex: /^read/, token: "READ" },
     { regex: /^write/, token: "WRITE" },
-    { regex: /^fnc/, token: "FUNCTION" },
+    { regex: /^func/, token: "FUNCTION" },
     { regex: /^while/, token: "WHILE" },
     { regex: /^switch/, token: "SWITCH" },
     { regex: /^case_/, token: "CASE" },
@@ -34,7 +34,7 @@ const tokenTypes = [
   ];
 
 
-function lex(input) {
+function lex(input) {             
     let tokens = [];
     let position = 0;
     if (typeof input !== 'string') {
@@ -88,7 +88,6 @@ export function validateVariableDeclaration(input) {
 
     return {
       success: true,
-      message: 'Cadena válida',
       tokens: tokens,
       result: result
     };
@@ -97,7 +96,6 @@ export function validateVariableDeclaration(input) {
 
     return {
       success: false,
-      message: `Error al analizar la cadena de texto: ${error.message}`,
       tokens: tokens,
     };
   }

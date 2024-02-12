@@ -5,12 +5,17 @@ import {
   validateVariableDeclaration
 } from "../type/index.js"; 
 
+import { validateGrammar } from "../type/sintactico.js";
+
 export default function CodeEditor() {
   const [validationResult, setValidationResult] = useState(null);
+  const [validationGrammar, setValidationGrammar] = useState()
 
   const onChange = useCallback((value) => {
     const result = validateVariableDeclaration(value);
-    setValidationResult(result);       
+    const grammar = validateGrammar(value)
+    setValidationResult(result);   
+    setValidationGrammar(grammar);   
   }, []);
   
   return (
@@ -25,10 +30,10 @@ export default function CodeEditor() {
             onChange={onChange}
             className="py-2"
           />
-          {validationResult && (
+          {validationResult &&  validationGrammar &&(
           <div>
             <div className="bg-red-100 text-purple-500 p-4 mt-4">
-              {validationResult.message}
+              {validationGrammar.message}
             </div>
             {validationResult.tokens && Array.isArray(validationResult.tokens) && (
               <div>
