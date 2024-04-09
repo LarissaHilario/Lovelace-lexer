@@ -5,23 +5,28 @@ import {
   validateVariableDeclaration
 } from "../type/index.js"; 
 
+import { validateSemantic } from "../type/pruebaindex.js";
+
 import { validateGrammar } from "../type/sintactico.js";
 
 export default function CodeEditor() {
   const [validationResult, setValidationResult] = useState(null);
   const [validationGrammar, setValidationGrammar] = useState()
+  const [validationSemantic, setValidationSemantic] = useState()
 
   const onChange = useCallback((value) => {
     const result = validateVariableDeclaration(value);
     const grammar = validateGrammar(value)
+    const semantic = validateSemantic(value)
     setValidationResult(result);   
-    setValidationGrammar(grammar);   
-  }, []);
+    setValidationGrammar(grammar); 
+    setValidationSemantic(semantic)  
+  }, []);            
   
   return (
     <div className="hero min-h-screen bg-base-200">
       <div className="hero-content flex-col lg:flex-row-reverse">
-        <div className="lg:text-left max-w-max mb-[1000px] ">
+        <div className="lg:text-left max-w-max mb-[1000px] h-[600px] ">
           <CodeMirror
             value=""
             height="400px"
@@ -30,12 +35,12 @@ export default function CodeEditor() {
             onChange={onChange}
             className="py-2"
           />
-          {validationResult &&  validationGrammar &&(
+          {validationResult &&  validationGrammar && validationSemantic &&(
           <div>
             <div className="bg-red-100 text-purple-500 p-4 mt-4">
               {validationGrammar.message}
             </div>
-            {validationResult.tokens && Array.isArray(validationResult.tokens) && (
+            {validationResult.tokens && Array.isArray(validationGrammar.tokens) && (
               <div>
                 <div className="bg-red-100 text-black p-4 mt-14">
                   <p>Tokens Generados:</p>
@@ -47,6 +52,15 @@ export default function CodeEditor() {
                 </div>
               </div>
             )}
+            <h2 className="text-xl font-semibold text-default p-2">Código Compilado</h2>
+                <div className="mockup-code">
+              
+               <code><pre data-prefix=">" className="text-primary">{validationSemantic.message}</pre></code>
+              </div>
+            <div className="bg-red-100 text-purple-500 p-4 mt-4">
+              {validationSemantic.result}
+            </div>
+
           </div>
         )}
 
@@ -99,10 +113,7 @@ export default function CodeEditor() {
             <pre data-prefix="8"><code>int a , q = 10</code></pre>
           </div>
 
-          <h2 className="text-xl font-semibold text-default p-2">Leer el contenido de una variable</h2>
-          <div className="mockup-code w-12">
-            <pre data-prefix="1"><code>variable.read</code></pre>
-          </div>
+    
 
           <h2 className="text-xl font-semibold text-default p-2">Escribir un mensaje</h2>
           <p className="p-2">Para escribir un mensaje tenemos dos opciones, que el mensaje sea propio, o bien, sea una variable, la manera de hacerlo es la siguiente:
@@ -116,10 +127,10 @@ export default function CodeEditor() {
           <div className="mockup-code">
             <pre data-prefix="1"><code>fnc variable (){ "{ (variable).write }"}</code></pre>
             <pre data-prefix="2"><code>fnc variable (){ '{ ("mensaje").write }' }</code></pre>
-            <pre data-prefix="3"><code>fnc variable (){ "{ variable.read }" }</code></pre>
-            <pre data-prefix="4"><code> fnc variable (variable){ "{ (variable).write }" }</code></pre>
-            <pre data-prefix="5"><code>fnc variable (variable , variable){ '{ ("mensaje").write }' }</code></pre>
-            <pre data-prefix="6"><code>fnc variable (variable , variable , variable){ '{ variable.read }' }</code></pre>
+          
+            <pre data-prefix="3"><code> fnc variable (variable){ "{ (variable).write }" }</code></pre>
+            <pre data-prefix="4"><code>fnc variable (variable , variable){ '{ ("mensaje").write }' }</code></pre>
+          
           </div>
 
           <h2 className="text-xl font-semibold text-default p-2">Uso del switch </h2>

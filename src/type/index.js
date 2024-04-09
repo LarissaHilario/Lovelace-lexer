@@ -5,7 +5,7 @@ const tokenTypes = [
     //Palabras reservadas
     { regex: /^read/, token: "READ" },
     { regex: /^write/, token: "WRITE" },
-    { regex: /^func/, token: "FUNCTION" },
+    { regex: /^fnc/, token: "FUNCTION" },
     { regex: /^while/, token: "WHILE" },
     { regex: /^switch/, token: "SWITCH" },
     { regex: /^case_/, token: "CASE" },
